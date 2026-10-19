@@ -1,0 +1,17 @@
+services:
+  product-checker:
+    image: product-checker:latest
+    container_name: product-checker
+    restart: unless-stopped
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+      - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN}
+      - TELEGRAM_CHAT_ID=${TELEGRAM_CHAT_ID}
+    volumes:
+      - ./application-prod.yml:/app/config/application-prod.yml
+      - ./logs:/var/log/product-checker
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"

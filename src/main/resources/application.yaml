@@ -1,0 +1,37 @@
+spring:
+  application:
+    name: ProductChecker
+
+logging:
+  file:
+    name: logs/product-checker.log
+  logback:
+    rollingpolicy:
+      max-file-size: 10MB
+      max-history: 7
+
+app:
+  html-fetcher:
+    user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/154.0.8037.99 Safari/537.36
+    timeout: 20000
+  monitoring:
+    base-min-delay: 4m
+    base-max-delay: 6m
+    delay-after-one-failure: 5m
+    delay-after-two-failures: 12m
+    delay-after-many-failures: 16m
+    between-products-min: 15s
+    between-products-max: 25s
+  product:
+    products:
+      # Add your products to monitor here
+      # Example:
+      - title: Example Product 1
+        link: https://www.amazon.in/example-product-1/dp/EXAMPLE1
+      - title: Example Product 2
+        link: https://www.amazon.in/example-product-2/dp/EXAMPLE2
+  telegram:
+    token: ${TELEGRAM_BOT_TOKEN}
+    chat-id: ${TELEGRAM_CHAT_ID}
+    base-url: https://api.telegram.org/bot
+    send-message-path: /sendMessage
