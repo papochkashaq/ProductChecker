@@ -27,17 +27,20 @@ public class AmazonInHtmlParser implements HtmlParser {
         Element buyNowButton = doc.getElementById("buy-now-button");
         Element availability = doc.selectFirst("#availability");
         String availabilityText = availability != null ? availability.text() : "";
+        Element seeAllBuyingOptions = doc.selectFirst("a:contains(See all buying options), button:contains(See all buying options)");
+
+        boolean hasSeeAllBuyingOptionsSignal = seeAllBuyingOptions != null;
+        boolean hasInStockSignal = (cartButton != null ||
+            buyNowButton != null ||
+            availabilityText.contains("In stock"));
+        boolean hasOutOfStockSignal = availabilityText.contains("Currently unavailable.");
 
         logger.debug("Cart button present: {}", cartButton != null);
         logger.debug("Buy now button present: {}", buyNowButton != null);
+        logger.debug("See all buying options present: {}", seeAllBuyingOptions);
         logger.debug("Availability text: {}", availabilityText);
 
-        boolean hasInStockSignal = (cartButton != null ||
-                buyNowButton != null ||
-                availabilityText.contains("In stock"));
-        boolean hasOutOfStockSignal = availabilityText.contains("Currently unavailable.");
-
-        if (hasInStockSignal) {
+        if (hasInStockSignal || hasSeeAllBuyingOptionsSignal) {
             return ProductStatus.IN_STOCK;
         }
         if (hasOutOfStockSignal) {
