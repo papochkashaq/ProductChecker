@@ -52,7 +52,7 @@ class AmazonInHtmlParserTest {
     }
 
     @Test
-    void shouldDetectInStockWhenUnavailableTextPresent() {
+    void shouldReturnInStockWhenUnavailableTextPresent() {
         String html = "<html><body><button id='add-to-cart-button'>Add</button><div>Currently unavailable.</div></body></html>";
 
         CheckResult result = parser.parse(html, "https://test");
